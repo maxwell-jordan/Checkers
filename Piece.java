@@ -1,12 +1,12 @@
-package Checkers;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 
-import static Checkers.CheckerBoard.TILE_SIZE;
 
 public class Piece extends StackPane {
+
+    final int TILE_SIZE=100;
 
     private PieceType type;
 
@@ -26,7 +26,7 @@ public class Piece extends StackPane {
     }
 
     public Piece(PieceType type, int x, int y){
-        this.type = type;               //javaFx design of the game pieces; basically two ellipses on top of each other
+        this.type = type;
 
         move(x, y);
 
@@ -67,4 +67,5 @@ public class Piece extends StackPane {
     public void abortMove(){
         relocate(oldX, oldY);
     }
+
 }
