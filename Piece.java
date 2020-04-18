@@ -26,7 +26,7 @@ public class Piece extends StackPane {
     }
 
     public Piece(PieceType type, int x, int y){
-        this.type = type;
+        this.type = type;               //javaFx design of the game pieces; basically two ellipses on top of each other
 
         move(x, y);
 

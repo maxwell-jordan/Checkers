@@ -20,11 +20,11 @@ public class Tile extends Rectangle {
     }
 
     public Tile(boolean light, int x, int y){
-        setWidth(CheckerBoard.TILE_SIZE);
+        setWidth(CheckerBoard.TILE_SIZE);       //javaFx design of the tiles that make up the board
         setHeight(CheckerBoard.TILE_SIZE);
 
         relocate(x * CheckerBoard.TILE_SIZE, y * CheckerBoard.TILE_SIZE);
 
-        setFill(light ? Color.valueOf("#feb") : Color.valueOf("#582"));
+        setFill(light ? Color.valueOf("#feb") : Color.valueOf("#582")); //arbitrary colors of the board
     }
 }
