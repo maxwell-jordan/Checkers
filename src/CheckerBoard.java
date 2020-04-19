@@ -199,7 +199,7 @@ public class CheckerBoard extends Application {
     //Starts the src.MinMax Algorithm
     public void RandomStart(){
         //Creates the src.MinMax object and runs it to find the best move
-        Random R=new Random();
+        RandomMove R=new RandomMove();
         R.Move(board);
         int newX=R.GetNewX();
         int newY=R.GetNewY();

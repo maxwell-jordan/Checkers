@@ -1,6 +1,8 @@
 package src;
 
-public class Random {
+import java.util.Random;
+
+public class RandomMove {
     //Array that holds the board and represents User pieces with a 2 and AI with a 1
     private int[][] Pieces=new int[8][8];
     //Array that holds the Possible Movies for the AI along with and iterator to track how many moves there are
@@ -29,30 +31,34 @@ public class Random {
         GetBoardState(board);
         //Populates the AI Moves array with moves available for the AI
         PossibleAIMoves();
-        //Gets the Max Values for all AIMoves
-        for(int i=0;i<AIMoveCount;i++){
-            MinMax(AIMoves[i]);
-        }
-        int Max=-1;
-        int MaxMove=-1;
+
+        int rand = -1;
+        int randmove = -1;
+
+        // TODO: Finish Random Move, should be complete after this don't think this is working...
+
         //Chooses the Maximum Max value from all possible moves
         for(int i=0;i<AIMoveCount;i++){
-            if(Max<AIMoves[i].getMax()){
-                Max=AIMoves[i].getMax();
-                MaxMove=i;
+            Random random = new Random();
+
+            if(rand<AIMoves[i].getMax()){
+                rand=AIMoves[i].getMax();
+                randmove=i;
             }
         }
+
         //Sets the Final Coordinate Values to be used in the Main method
-        NewX=AIMoves[MaxMove].GetNewX();
-        NewY=AIMoves[MaxMove].GetNewY();
-        OldX=AIMoves[MaxMove].GetOldX();
-        OldY=AIMoves[MaxMove].GetOldY();
-        if(AIMoves[MaxMove].getType().equals(MoveType.KILL)){
+        NewX=AIMoves[randmove].GetNewX();
+        NewY=AIMoves[randmove].GetNewY();
+        OldX=AIMoves[randmove].GetOldX();
+        OldY=AIMoves[randmove].GetOldY();
+        if(AIMoves[randmove].getType().equals(MoveType.KILL)){
             type=MoveType.KILL;
         }
         else {
             type = MoveType.NORMAL;
         }
+
     }
     //Creates the Pieces Array from the Board from the src.CheckerBoard class
     public void GetBoardState(Tile[][]board){
