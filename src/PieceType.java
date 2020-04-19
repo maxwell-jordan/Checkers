@@ -1,4 +1,4 @@
-
+package src;
 
 public enum PieceType {
     RED(1), BLACK(-1);

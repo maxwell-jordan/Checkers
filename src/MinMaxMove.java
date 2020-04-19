@@ -1,3 +1,5 @@
+package src;
+
 public class MinMaxMove {
     //Stores the New Coordinates
     private int NewX;

@@ -1,3 +1,4 @@
+package src;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;

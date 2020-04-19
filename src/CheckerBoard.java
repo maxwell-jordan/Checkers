@@ -1,13 +1,14 @@
-
+package src;
 
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
+
 
 public class CheckerBoard extends Application {
 
@@ -15,10 +16,14 @@ public class CheckerBoard extends Application {
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
 
+    private BorderPane layout;
+    private Scene scene;
+
     private Tile[][] board = new Tile[WIDTH][HEIGHT];
 
     private Group tileGroup = new Group();
     private Group pieceGroup = new Group();
+
 
     private Parent createContent()
     {
@@ -77,11 +82,35 @@ public class CheckerBoard extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
-        Scene scene = new Scene(createContent());
-        primaryStage.setTitle("Checkers");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public void start(Stage window) throws Exception {
+
+        layout = new BorderPane();
+        scene = new Scene (layout, 100, 100);
+
+        Button btn1 = new Button();
+        btn1.setOnAction(e -> {
+            Scene board = new Scene(createContent()); //This is where the Easy button is clicked and opens up the board for Easy mode.
+            window.setScene(board);
+            window.show();
+        });
+        btn1.setText("Easy");
+        btn1.setMaxSize(100, 90);
+        layout.setTop(btn1);
+
+
+        Button btn2 = new Button();
+        btn2.setOnAction (e -> {
+            Scene board2 = new Scene (createContent()); //This is where the Hard button is clicked and opens up the board for Hard mode.
+            window.setScene(board2);
+            window.show();
+        });
+        btn2.setText("Hard");
+        btn2.setMaxSize(100, 90);
+        layout.setBottom(btn2);
+
+        window.setTitle("Checkers");
+        window.setScene(scene);
+        window.show();
     }
 
     private Piece makePiece(PieceType type, int x, int y){
@@ -105,7 +134,6 @@ public class CheckerBoard extends Application {
                         piece.move(newX, newY);
                         board[x0][y0].setPiece(null);
                         board[newX][newY].setPiece(piece);
-                        MinMaxStart();
                         break;
                     case KILL:
                         piece.move(newX, newY);
@@ -115,16 +143,16 @@ public class CheckerBoard extends Application {
                         Piece otherPiece = result.getPiece();
                         board[toBoard(otherPiece.getOldX())][toBoard(otherPiece.getOldY())].setPiece(null);
                         pieceGroup.getChildren().remove(otherPiece);
-                        MinMaxStart();
                         break;
-                }
 
+                }
+                MinMaxStart();
 
             });
         }
         if(type.equals(PieceType.RED)){
             piece.setOnMouseReleased(e->{
-                    piece.abortMove();
+                piece.abortMove();
             });
 
         }
@@ -135,9 +163,9 @@ public class CheckerBoard extends Application {
         launch(args);
     }
 
-    //Starts the MinMax Algorithm
+    //Starts the src.MinMax Algorithm
     public  void MinMaxStart(){
-        //Creates the MinMax object and runs it to find the best move
+        //Creates the src.MinMax object and runs it to find the best move
         MinMax M=new MinMax();
         M.Move(board);
         int newX=M.GetNewX();
@@ -168,8 +196,37 @@ public class CheckerBoard extends Application {
         }
 
     }
+    //Starts the src.MinMax Algorithm
+    public void RandomStart(){
+        //Creates the src.MinMax object and runs it to find the best move
+        Random R=new Random();
+        R.Move(board);
+        int newX=R.GetNewX();
+        int newY=R.GetNewY();
+        int x0=R.GetOldX();
+        int y0=R.GetOldY();
 
+        //Selects the piece based on the coordinates
+        Piece piece=board[x0][y0].getPiece();
 
+        //Tries the move to check if everything was calculated properly
+        MoveResult result = tryMove(piece, newX, newY);
 
+        //Moves the pieces based on the move type
+        if(R.getType().equals(MoveType.KILL)){
+            piece.move(newX, newY);
+            board[x0][y0].setPiece(null);
+            board[newX][newY].setPiece(piece);
 
+            Piece otherPiece = result.getPiece();
+            board[toBoard(otherPiece.getOldX())][toBoard(otherPiece.getOldY())].setPiece(null);
+            pieceGroup.getChildren().remove(otherPiece);
+        }
+        else if(R.getType().equals(MoveType.NORMAL)){
+            piece.move(newX, newY);
+            board[x0][y0].setPiece(null);
+            board[newX][newY].setPiece(piece);
+        }
+
+    }
 }
